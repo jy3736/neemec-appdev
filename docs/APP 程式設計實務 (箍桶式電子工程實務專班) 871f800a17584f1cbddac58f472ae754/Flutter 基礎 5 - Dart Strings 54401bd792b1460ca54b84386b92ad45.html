@@ -1,0 +1,722 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Flutter 基礎 5 - Dart Strings</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+}
+
+.simple-table-header {
+	background: rgb(247, 246, 243);
+	color: black;
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="54401bd7-92b1-460c-a54b-84386b92ad45" class="page sans"><header><img class="page-cover-image" src="Flutter%20%E5%9F%BA%E7%A4%8E%204%20-%20Dart%20Null%20Aware%20Operators%2087bab5becbac46629718352f01dd702f/dart-6.png" style="object-position:center 52.47999999999999%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="SCRCPY%20-%20Android%20%E6%89%8B%E6%A9%9F%E9%8F%A1%E5%83%8F%E5%B7%A5%E5%85%B7%201254b073b0f34315bf7d8bbe2d76f581/yang-tr-wb.png"/></div><h1 class="page-title"><strong>Flutter 基礎 5</strong> - Dart Strings</h1></header><div class="page-body"><h2 id="1820abb1-75a9-442e-b835-2731b4f08ba3" class="block-color-purple_background">參考資料 + 翻轉教室輔助影片</h2><div id="8f731e85-ce8b-4ad3-9a1f-5ebc299a271d" class="column-list"><div id="c8603e87-ff67-4185-93ab-6f0548d51a04" style="width:25%" class="column"><figure id="0db3b547-0677-4d93-9a94-79eaf2e8b508" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled.png"><img style="width:296px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled.png"/></a></figure></div><div id="c3da1a57-642f-422e-b1e2-4e07dd331174" style="width:75%" class="column"><figure id="f94b353e-2f21-4933-804b-dc24a2ae07d6"><a href="https://youtu.be/cvrh7pa2N34" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Flutter 基礎與實作 5 - Dart Strings</div><div class="bookmark-description">APP 程式設計實務 (2021 Fall)</div></div><div class="bookmark-href"><img src="https://www.youtube.com/s/desktop/18069be1/img/favicon.ico" class="icon bookmark-icon"/>https://youtu.be/cvrh7pa2N34</div></div><img src="https://i.ytimg.com/vi/cvrh7pa2N34/hqdefault.jpg" class="bookmark-image"/></a></figure></div></div><div id="0fdf4805-71a4-4dfa-9acf-93c23266b354" class="column-list"><div id="55c88546-4023-41b3-84ac-91ef0578e2d6" style="width:50%" class="column"><figure id="4cc12a1b-b738-46e7-9e7c-8bbd318a9c9a"><a href="https://flutterbyexample.com/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Home</div><div class="bookmark-description">Tutorials about Dart and Flutter.</div></div><div class="bookmark-href"><img src="https://flutterbyexample.com/favicon-32x32.png?v=67642a0b80f3d50277c44cde8f450e50" class="icon bookmark-icon"/>https://flutterbyexample.com/</div></div><img src="https://flutterbyexample.com/static/67642a0b80f3d50277c44cde8f450e50/b1497/logo_flutter.png" class="bookmark-image"/></a></figure></div><div id="e6d85bcb-28e4-4775-8554-323daf4aef56" style="width:50%" class="column"><figure id="ece851c1-1ddf-4017-9d91-7d3bd722a567"><a href="https://flutterbyexample.com/lesson/strings" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Strings</div><div class="bookmark-description">String` is the basic class with which you write text. ```dart String greeting = &#x27;hello, world&#x27;; String confirm = &#x27;Press to Confirm&#x27;; String userName = &#x27;WallaceTheCat&#x27;; ``` Strings can be concatenated with `+` operator, or by simply placing multiple strings next to eachother: ```dart print(&quot;Hello,&quot; + &quot; World&quot;); // Hello, World print (&quot;Hello&quot; &quot;,&quot; &quot; World&quot;); // Hello, World ``` You can interpolate values into strings with the `$` operator for single values, and `${}` for expressions.</div></div><div class="bookmark-href"><img src="https://flutterbyexample.com/favicon-32x32.png?v=67642a0b80f3d50277c44cde8f450e50" class="icon bookmark-icon"/>https://flutterbyexample.com/lesson/strings</div></div><img src="https://flutterbyexample.com/static/13e20e79890f016c85b0b4872265c56b/630fb/flutter-in-action.png" class="bookmark-image"/></a></figure></div></div><div id="78ca7cf1-1147-4ad5-b6b1-ebffe1b605a1" class="column-list"><div id="b832b7df-50d8-440d-845f-1c1ed231fb70" style="width:50%" class="column"><figure id="21b7200a-47f1-44b1-8e0e-be9fd22ab24f"><a href="https://dart.dev/guides/language/type-system#type-inference" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">The Dart type system</div><div class="bookmark-description">The Dart language is type safe: it uses a combination of static type checking and runtime checks to ensure that a variable&#x27;s value always matches the variable&#x27;s static type, sometimes referred to as sound typing. Although types are mandatory, type annotations are optional because of type inference.</div></div><div class="bookmark-href"><img src="https://dart.dev/assets/shared/dart/icon/64.png" class="icon bookmark-icon"/>https://dart.dev/guides/language/type-system#type-inference</div></div><img src="https://dart.dev/guides/language/images/type-hierarchy.png" class="bookmark-image"/></a></figure></div><div id="34e29e3b-7fa0-4e03-8243-b3544d1bef35" style="width:50%" class="column"><figure id="a9ade44b-1d5d-4a64-9ed2-977ea103b45c"><a href="https://flutterbyexample.com/lesson/intro-to-dart-s-type-system" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Intro to Dart&#x27;s Type System</div><div class="bookmark-description">Dart&#x27;s type system is straightforward enough (as far as type systems go). But it is a big topic, especially if you&#x27;ve never used a typed language before. It&#x27;s such a big topic that we can&#x27;t possibly cover it in this lesson alone. This is just an introduction.</div></div><div class="bookmark-href"><img src="https://flutterbyexample.com/favicon-32x32.png?v=67642a0b80f3d50277c44cde8f450e50" class="icon bookmark-icon"/>https://flutterbyexample.com/lesson/intro-to-dart-s-type-system</div></div><img src="https://flutterbyexample.com/static/13e20e79890f016c85b0b4872265c56b/630fb/flutter-in-action.png" class="bookmark-image"/></a></figure></div></div><h2 id="d0a57c35-7ceb-4284-abed-252a96f50860" class="block-color-purple_background">課程設計 </h2><h2 id="c8b26b87-a4aa-406c-bb19-6ab14f40fcef" class="block-color-brown">Dart 基礎程式設計 4：內建資料型態</h2><h2 id="4defbc52-c2a0-42ac-854b-e181395c7dde" class="block-color-yellow">Type Inference</h2><blockquote id="da97889d-1875-4f69-bccb-58dfc1c67425" class=""><a href="https://dart.dev/guides/language/type-system#type-inference">https://dart.dev/guides/language/type-system#type-inference</a></blockquote><div id="b27ac5fd-d897-4c19-af29-6c177f8ada3a" class="column-list"><div id="74f7288d-4dfe-4c7b-b72b-fff0047f94d8" style="width:62.5%" class="column"><pre id="8e151026-4728-4bc9-9075-fff8317901c5" class="code code-wrap"><code>void main() {
+  var i = 12;
+  var d = 3.14;
+  var s = &quot;STUST&quot;;
+
+  print(&quot;i.runtimeType =  ${i.runtimeType}&quot;);
+  print(&quot;d.runtimeType =  ${d.runtimeType}&quot;);
+  print(&quot;s.runtimeType =  ${s.runtimeType}&quot;);
+}</code></pre></div><div id="9be46256-b9d4-48ec-9aea-7b6740a2208d" style="width:37.49999999999999%" class="column"><figure id="cfd6536a-8c8d-4a48-899b-1110b4cb1e39" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%201.png"><img style="width:766px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%201.png"/></a></figure></div></div><div id="ddfec798-48eb-4b4d-8b72-ee5010ba9652" class="column-list"><div id="5f9edbbb-25d6-48c3-8a1c-3da5807e5586" style="width:50%" class="column"><figure id="f32960c4-4116-421c-b431-613a15315549" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%202.png"><img style="width:1430px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%202.png"/></a></figure></div><div id="e0960851-0812-4cec-a1fc-7bb8392be389" style="width:50%" class="column"><figure id="f2d9bef1-2dce-443f-8bf2-e38c96860b6e" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%203.png"><img style="width:1276px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%203.png"/></a></figure></div></div><h2 id="f930291e-636e-4b36-902c-76b1f183cacd" class="block-color-yellow">Dynamically Typed</h2><blockquote id="de22c38c-5cc2-4cc7-855b-91ea10c0cd11" class=""><a href="https://www.geeksforgeeks.org/data-types-in-dart/">https://www.geeksforgeeks.org/data-types-in-dart/</a></blockquote><figure id="00646c37-f9b3-47c3-be74-0f959989bcb0" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%204.png"><img style="width:1786px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%204.png"/></a></figure><div id="3f329483-dd7f-40f1-8091-826ccf4f4f2f" class="column-list"><div id="ab2f6727-1772-4f44-baa1-5a92c5e6ea54" style="width:68.75%" class="column"><h3 id="7cfb852f-7418-4250-bcd0-a79a5c99fb72" class="">Unsound implicit cast from a <code>dynamic</code> type List to an <code>integer</code> type </h3><pre id="68d4988e-a22f-4bde-8e32-d009a01ddf58" class="code code-wrap"><code>void printInts(List&lt;int&gt; x) =&gt; print(x);
+
+void main() {
+  var list = &lt;int&gt;[];
+  list.add(1000);
+  list.add(2000);
+  printInts(list);
+}</code></pre></div><div id="b1b6cb35-69ed-467b-ab5d-25c698c3a58a" style="width:31.250000000000007%" class="column"><figure id="6dbfe69f-120c-47ae-8448-1157f866c161" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%205.png"><img style="width:108px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%205.png"/></a></figure></div></div><div id="ea753f12-ebb6-40ca-a9fc-a42c433b6a8d" class="column-list"><div id="4147fc42-b20a-498d-87a7-b11f618412ce" style="width:68.75%" class="column"><pre id="8a86f961-73cb-4b67-a7a8-4091de9681f4" class="code code-wrap"><code>void printInts(List&lt;dynamic&gt; x) =&gt; print(x);
+
+void main() {
+  var list = [];
+  list.add(1000);
+  list.add(2000);
+  printInts(list);
+}</code></pre></div><div id="2c6fcacf-5481-4996-89e6-0d1cf4ae2320" style="width:31.25%" class="column"><figure id="a80df0cc-a77e-4014-9a82-1700188b0104" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%205.png"><img style="width:108px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%205.png"/></a></figure></div></div><h2 id="830ac810-1faf-4554-966f-39b6b61f4a67" class="block-color-yellow">String Operations</h2><h3 id="fa55f527-481d-4705-a8eb-ace48407babb" class="block-color-orange">String Concatenate</h3><blockquote id="f0e7a63f-7a93-40c2-960b-cb70baea31f4" class=""><a href="https://www.tutorialkart.com/dart/dart-string-concatenate/">https://www.tutorialkart.com/dart/dart-string-concatenate/</a></blockquote><pre id="45bd8490-6a33-4c7b-a4bf-afd98a431b31" class="code code-wrap"><code>void main() {
+  String str1 = &#x27;STUST &#x27;;
+  String str2 = &#x27;Dart &#x27;;
+
+  print(&quot;str1 + str2 = ${str1 + str2}&quot;);
+  print(&quot;str1 + str2 + 2021.toString() = ${str1 + str2 + 2021.toString()}&quot;);
+}</code></pre><figure id="8914fde9-5db9-44c8-9b99-cb11f2177d04" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%206.png"><img style="width:384px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%206.png"/></a></figure><h3 id="7f3f3895-59f4-4e69-a944-5e69402e4818" class="block-color-orange">Split String</h3><blockquote id="12d50cf7-9b61-43d1-9c83-2a3c36bd0665" class=""><a href="https://www.tutorialkart.com/dart/dart-split-string/">https://www.tutorialkart.com/dart/dart-split-string/</a></blockquote><pre id="aa5aeb89-c6e2-48a3-8eeb-57f9fc2d006b" class="code code-wrap"><code>void main(){
+     
+    String str1 = &#x27;hello-world-tutorialkart&#x27;;
+    String str2 = &#x27;helloabcworldabctutorialkart&#x27;;
+    String str3 = &#x27;25,85,96,741,63&#x27;;
+  
+    print(&quot;&#x27;$str1&#x27;.split(&#x27;-&#x27;) = ${str1.split(&#x27;-&#x27;)}&quot;);
+    print(&quot;&#x27;$str2&#x27;.split(&#x27;abc&#x27;) = ${str2.split(&#x27;abc&#x27;)}&quot;);
+    print(&quot;&#x27;$str3&#x27;.split(&#x27;,&#x27;) = ${str3.split(&#x27;,&#x27;)}&quot;);
+}</code></pre><figure id="c91a1ef7-379a-48b5-8be4-a2dd0ba33e4f" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%207.png"><img style="width:576px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%207.png"/></a></figure><h3 id="8ebe1ed6-ccff-493b-ac47-4590c68912ad" class="block-color-orange">Replace Substring</h3><blockquote id="24f87f89-94fa-440b-ad8c-1f71caea509c" class=""><a href="https://www.tutorialkart.com/dart/dart-replace-substring-in-string/">https://www.tutorialkart.com/dart/dart-replace-substring-in-string/</a></blockquote><pre id="35265724-36f6-41a8-9b47-774af159d0fe" class="code code-wrap"><code>void main(){
+     
+    String str = &#x27;Hello TutorialKart. Hello User.&#x27;;
+     
+    print(&quot;str = $str&quot;);
+    var s1 = str.replaceAll(&#x27;Hello&#x27;, &#x27;Hi&#x27;);
+    print(&quot;str.replaceAll(&#x27;Hello&#x27;, &#x27;Hi&#x27;) = $s1&quot;);
+    var s2 = str.replaceFirst(&#x27;Hello&#x27;, &#x27;Hi&#x27;).replaceAll(&#x27;User&#x27;, &#x27;Client&#x27;);
+    print(&quot;str.replaceFirst(&#x27;Hello&#x27;, &#x27;Hi&#x27;).replaceAll(&#x27;User&#x27;, &#x27;Client&#x27;) = $s2&quot;);
+ </code></pre><figure id="9531eea7-5505-4981-bca2-277c483bcc7e" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%208.png"><img style="width:1774px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%208.png"/></a></figure><div id="bc66667a-b276-480b-84ca-a8df2965064e" class="column-list"><div id="d038d981-ce69-40e0-a907-a47575791acc" style="width:50%" class="column"><h3 id="d8b86b18-221e-45d3-bd86-c72573986ad0" class="block-color-orange">Substring</h3></div><div id="eebf6f4d-27c6-4b82-8399-56c427f1953a" style="width:50%" class="column"><p id="bd7fca02-2939-4686-bd2b-9c8e740eaf3b" class="">
+</p></div></div><blockquote id="8691d799-351c-405a-9d0f-4273ee4420ff" class=""><a href="https://www.tutorialkart.com/dart/dart-replace-substring-in-string/">https://www.tutorialkart.com/dart/dart-replace-substring-in-string/</a></blockquote><pre id="f330dc02-4fdb-4aba-a453-d2f6e600591d" class="code code-wrap"><code>void main(){
+     
+    String str = &#x27;STUST : Hello Dart Programming&#x27;;
+
+    print(&quot;0123456789&quot;*3);
+    print(str);
+    print(&quot;str.substring(5,13) = ${str.substring(5,13)}&quot;);
+    print(&quot;str.substring(14) = ${str.substring(14)}&quot;); 
+}</code></pre><figure id="140ab6c1-4f4c-4fe2-a25a-9bc3b852f582" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%209.png"><img style="width:288px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%209.png"/></a></figure><h3 id="021caae6-6891-4d71-804d-0d1e2a016988" class="block-color-orange">Trim and Length</h3><blockquote id="14017966-1da6-4302-9d5f-50d284325bd8" class=""><a href="https://www.tutorialkart.com/dart/dart-trim-string/">https://www.tutorialkart.com/dart/dart-trim-string/</a></blockquote><pre id="3fe28f12-3060-4bb2-8f94-9b4bc955ce04" class="code code-wrap"><code>void main(){
+     
+    String str = &#x27;   Hello Dart Programming   &#x27;;
+
+    print(&quot;0123456789&quot;*3);
+    print(str);
+    print(&quot;str.trim() = ${str.trim()}&quot;);
+    print(&quot;str.trim().length = ${str.trim().length}&quot;);
+}</code></pre><figure id="55091bc1-b7c8-453c-b680-29658e12d525" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%2010.png"><img style="width:288px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/Untitled%2010.png"/></a></figure><p id="0107f305-273b-473c-befd-cd5664bf07e6" class="">
+</p><p id="6088a2b5-0529-4449-94df-0270e30c9c73" class="">
+</p><h3 id="0d83d2ab-a901-45ac-a506-2c393c3dca49" class="block-color-gray_background">更詳細的操作說明，請參閱『翻轉教室輔助影片』...</h3><figure id="54fca1d7-c011-419a-9ddf-34bafbf2f705" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/%E5%9C%96%E7%89%874.png"><img style="width:1322px" src="Flutter%20%E5%9F%BA%E7%A4%8E%205%20-%20Dart%20Strings%2054401bd792b1460ca54b84386b92ad45/%E5%9C%96%E7%89%874.png"/></a></figure><p id="127391bf-77f7-44a1-ba5d-71b6a5c8e9c2" class="">
+</p></div></article></body></html>

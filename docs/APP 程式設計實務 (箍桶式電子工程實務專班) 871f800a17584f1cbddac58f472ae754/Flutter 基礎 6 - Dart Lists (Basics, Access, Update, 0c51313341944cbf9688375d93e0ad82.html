@@ -1,0 +1,809 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Flutter 基礎 6 - Dart Lists (Basics, Access, Update, Iterate)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+}
+
+.simple-table-header {
+	background: rgb(247, 246, 243);
+	color: black;
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="0c513133-4194-4cbf-9688-375d93e0ad82" class="page sans"><header><img class="page-cover-image" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/dart-4.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="SCRCPY%20-%20Android%20%E6%89%8B%E6%A9%9F%E9%8F%A1%E5%83%8F%E5%B7%A5%E5%85%B7%201254b073b0f34315bf7d8bbe2d76f581/yang-tr-wb.png"/></div><h1 class="page-title"><strong>Flutter 基礎 6</strong> - Dart Lists (Basics, Access, Update, Iterate)</h1></header><div class="page-body"><h2 id="bb8e9942-6ffc-4573-98b6-37928ddca54f" class="block-color-purple_background">參考資料 + 翻轉教室輔助影片</h2><div id="dd9dcbf5-be8b-4ede-9b1c-f02ea0d696cf" class="column-list"><div id="7da14577-1f49-4c93-b1b5-8293c6dbc5e1" style="width:25%" class="column"><figure id="bacae5a1-f86f-45e2-8d35-e8c86e8d0216" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled.png"><img style="width:296px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled.png"/></a></figure></div><div id="b595adfa-7a77-4c99-b235-b1bb7a6b105e" style="width:75%" class="column"><figure id="ee653fa6-8094-44ea-b046-16f54601e309"><a href="https://youtu.be/CVwgf72cxhc" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Flutter 基礎與實作 6 - Dart Lists (Basics, Access, Update, Iterate)</div><div class="bookmark-description">APP 程式設計實務 (2021 Fall)</div></div><div class="bookmark-href"><img src="https://www.youtube.com/s/desktop/18069be1/img/favicon.ico" class="icon bookmark-icon"/>https://youtu.be/CVwgf72cxhc</div></div><img src="https://i.ytimg.com/vi/CVwgf72cxhc/hqdefault.jpg" class="bookmark-image"/></a></figure></div></div><ol type="1" id="2f1425e2-805f-46d8-9198-cbaa3e5391ed" class="numbered-list" start="1"><li><a href="https://www.bezkoder.com/dart-list/">Dart/Flutter List Tutorial with Examples - BezKoder</a></li></ol><ol type="1" id="54dcd9a2-0437-417c-9d95-d725c33c990d" class="numbered-list" start="2"><li><a href="https://api.dart.dev/stable/2.14.4/dart-core/List-class.html">List class - dart:core library - Dart API</a></li></ol><h2 id="a79727ab-6aba-4add-bae1-4612cb077003" class="block-color-purple_background">課程設計</h2><h3 id="784381bf-904f-4f64-a379-e8638cc62cd1" class="block-color-orange">Fixed-length list</h3><div id="49228dce-1d52-463c-988c-455eaf57f542" class="column-list"><div id="d2e79cf7-85b3-42b3-8faa-6bbfa30d3cf4" style="width:62.5%" class="column"><pre id="1002f8a2-d51d-488d-bde6-19c029b9e1e8" class="code"><code>void main() {
+  List&lt;int&gt; dat1  = List&lt;int&gt;.filled(5,0);
+  List&lt;int?&gt; dat2 = List&lt;int?&gt;.filled(5,null);
+
+  dat2[0] = 3;
+  dat2[2] = 6;
+  dat2[4] = 9;
+
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat2 = $dat2&quot;);
+}</code></pre></div><div id="db6bc844-3844-4ddc-a181-fe8b265155ce" style="width:37.49999999999999%" class="column"><figure id="4da4e931-157e-4dac-9ae6-b80fb2a67702" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%201.png"><img style="width:240px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%201.png"/></a></figure></div></div><figure id="ee082f18-5fcc-4ec3-aab5-d3fdc7d1cad1" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%202.png"><img style="width:720px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%202.png"/></a></figure><figure id="df89c9ab-9966-4bee-beab-fb26e3def1fb" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%203.png"><img style="width:720px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%203.png"/></a></figure><h3 id="8486e9e0-d7b4-4580-9631-ffb42112aafe" class="block-color-orange"><strong>Shallow Copy!</strong></h3><div id="9d5c3ed4-b7a4-45b7-9ce9-45eead592e53" class="column-list"><div id="a4070bcb-5fc1-442f-a213-162579e1191d" style="width:62.5%" class="column"><pre id="f6d08358-83b5-4c34-9652-4323f81da16a" class="code"><code>void main() {
+  var dat1 = List&lt;dynamic&gt;.filled(5, null);
+
+  dat1[0] = 1;
+  dat1[2] = &quot;hello&quot;;
+  dat1[4] = 4.5;
+
+  var dat2 = dat1;
+
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat2 = $dat2&quot;);
+  print(&quot;-&quot;*36);
+  dat1[4] = &quot;world&quot;;
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat2 = $dat2&quot;);
+}</code></pre></div><div id="db699e6d-02d7-4a27-9e26-e2c114513d47" style="width:37.5%" class="column"><figure id="b34ba6e1-32f7-4f3e-b9f8-f1d91136067f" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%204.png"><img style="width:288px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%204.png"/></a></figure></div></div><h3 id="5b653a7b-3427-42ca-9c40-e0895ce4bfa3" class="block-color-orange">Growable List</h3><div id="9c4322fd-b2d5-4f66-a6d6-f8c5cf6eb6a1" class="column-list"><div id="f8d5d520-d86e-4f9f-ad02-b642c46f1971" style="width:56.25%" class="column"><pre id="16885551-f4ef-4884-ab1f-95f5c354f4a6" class="code"><code>void main() {
+  List&lt;int&gt; dat1 = [];
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat1.length = ${dat1.length}&quot;);
+
+  for (var i = 0; i &lt; 10; i++) {
+    dat1.add(i * i);
+  }
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat1.length = ${dat1.length}&quot;);
+}</code></pre></div><div id="f1d73755-b5c5-4a31-8ec5-28d30df53a3d" style="width:43.75000000000001%" class="column"><figure id="223896e6-a191-4189-ac30-3fa74c082db8" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%205.png"><img style="width:336px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%205.png"/></a></figure><p id="f88fa0b2-a16e-4678-8deb-4d16f097b184" class="">
+</p></div></div><p id="a8bcfb01-3f22-4797-bfc5-c523472f4076" class="">
+</p><div id="5e6b41d0-95cf-4f7e-90f5-6645892447cc" class="column-list"><div id="88c8036b-f5ce-4da9-9266-0a2dcf53ebbb" style="width:62.5%" class="column"><pre id="ed330ba4-d80c-4941-aa3d-a1f9d049b52b" class="code"><code>void main() {
+  List&lt;int&gt; dat1  = List&lt;int&gt;.filled(5,0, growable:true);
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat1.length = ${dat1.length}&quot;);
+  
+  dat1.add(1);
+  dat1.add(2);
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat1.length = ${dat1.length}&quot;);  
+}</code></pre></div><div id="aeeab7f1-af5a-4051-8457-6e5b79cac783" style="width:37.49999999999999%" class="column"><figure id="ce650780-68a6-44e1-bbc4-5d2ca5d3d3e3" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%206.png"><img style="width:240px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%206.png"/></a></figure></div></div><h3 id="aa25f360-8ceb-43ef-95eb-ea79994912d3" class="block-color-orange">Initialize List with values</h3><div id="18a92405-a4a8-424d-82eb-d97b52af3b58" class="column-list"><div id="b839ae60-ade3-4486-9ace-f685b661b8ad" style="width:62.5%" class="column"><pre id="4f9246b7-969f-4cb2-9b1d-036a5be03b2c" class="code"><code>void main() {
+  List&lt;int&gt; dat1  = [1,2,3];
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat1.length = ${dat1.length}&quot;);
+  dat1.add(4);
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat1.length = ${dat1.length}&quot;);
+  dat1.remove(2);
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat1.length = ${dat1.length}&quot;);  
+}</code></pre></div><div id="cce22760-706d-484e-8b20-b9acb8d082ed" style="width:37.5%" class="column"><figure id="1307d146-c26c-4871-b27a-ea8116d52dc8" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%207.png"><img style="width:192px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%207.png"/></a></figure></div></div><figure id="fc884464-cf0d-47ae-a8a6-62314f259749" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%208.png"><img style="width:720px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%208.png"/></a></figure><figure id="3c8dd9cb-beff-478e-a64b-e958a6fa984b" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%209.png"><img style="width:720px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%209.png"/></a></figure><p id="1c7deee2-bda2-4d95-b20b-20a30099553d" class="">
+</p><h3 id="dfdd2884-ec73-47f7-9394-c6992fe2110b" class="block-color-orange">Initialize List with <code>generate</code> constructor</h3><div id="6e77e691-a688-478f-a344-bce51ba7aa56" class="column-list"><div id="56ed43b7-2663-425a-bbfb-b727b71a662f" style="width:68.75%" class="column"><pre id="bc2b7141-4f08-42b6-80fc-affb651f00ee" class="code"><code>void main() {
+  List&lt;int&gt; dat1  = List.generate(5,(index) =&gt; index*index);
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat1.length = ${dat1.length}&quot;);
+  dat1.addAll([1,2,3]);
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat1.length = ${dat1.length}&quot;);
+}</code></pre></div><div id="6d534dd2-c088-4d62-b52d-cf516548e600" style="width:31.25%" class="column"><figure id="36c23b49-e4d4-427f-b5d4-6174302f9f7a" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2010.png"><img style="width:240px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2010.png"/></a></figure></div></div><h3 id="6b3ccaaa-7819-41e0-9245-8ec5175db8b7" class="block-color-orange">Concatenate Lists</h3><div id="33e8deed-d801-4313-91dc-3ac81cba9e9a" class="column-list"><div id="428793a6-bdf4-4908-bc47-2a87b119f2b3" style="width:56.25%" class="column"><pre id="5cdb6a7f-2f35-4489-911a-39fe50af0fee" class="code"><code>void dump(var a, var b, var c, var d, var e) {
+	print(&quot;a = $a\nb = $b\nc = $c&quot;);
+	print(&quot;d = $d\ne = $e\n&quot;);
+}
+
+void main() {
+  List&lt;int&gt; a  = List.generate(5,(index) =&gt; index);
+  List&lt;int&gt; b  = List.generate(5,(index) =&gt; index*2);
+  List&lt;int&gt; c  = List.generate(5,(index) =&gt; index*3);
+  List d = [];
+  List e = [];
+  dump(a,b,c,d,e);
+  
+  d = List.from(a);
+  d.addAll(b);
+  d.addAll(c);
+  dump(a,b,c,d,e);
+
+  e = List.from(a)..addAll(b)..addAll(c);
+  dump(a,b,c,d,e);
+}</code></pre></div><div id="7109ec01-396f-4e2a-80e4-593b2dd19989" style="width:43.75%" class="column"><figure id="364cc320-9578-44fe-afd9-7a61a43944be" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2011.png"><img style="width:336px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2011.png"/></a></figure></div></div><h3 id="da687d00-e7e1-4279-9cb8-882a08f08872" class="block-color-orange">Spread Operator (<code>...</code>) </h3><div id="8d510b02-cf46-41e4-aff2-afa5f4199cb2" class="column-list"><div id="10cfc5b7-0da5-4867-b314-1041554b2ef5" style="width:56.25%" class="column"><pre id="c0c86504-6fff-4b76-9fa1-f4756a7b8277" class="code"><code>void dump(var a, var b, var c, var d, var e) {
+	print(&quot;a = $a\nb = $b\nc = $c&quot;);
+	print(&quot;d = $d\ne = $e\n&quot;);
+}
+
+void main() {
+  List&lt;int&gt; a  = List.generate(5,(index) =&gt; index);
+  List&lt;int&gt; b  = List.generate(5,(index) =&gt; index*2);
+  List&lt;int&gt; c  = List.generate(5,(index) =&gt; index*3);
+  List d = [...a, ...b, ...c];
+  List e = a + b + c;
+  
+  dump(a,b,c,d,e);
+}</code></pre></div><div id="e10b4253-8a5b-4608-a95a-c93ba9de955b" style="width:43.75%" class="column"><figure id="8b1df0a8-17c2-488b-a828-c07dd984ea2d" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2012.png"><img style="width:912px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2012.png"/></a></figure></div></div><h3 id="fda7925f-8f0c-40ba-bc3f-4a643342f872" class="block-color-orange">Access items from List</h3><div id="e50898fe-7f88-44c0-8c10-670bc7271574" class="column-list"><div id="d41b69fc-800c-4678-9358-3e8bd125a12b" style="width:62.5%" class="column"><pre id="4c5c5227-688f-4201-8d39-62c89d0f2fb8" class="code"><code>void main() {
+  List&lt;int&gt; dat1 = List.generate(5, (index) =&gt; index);
+  print(&quot;dat1 = $dat1&quot;);
+  print(&quot;dat1.length = ${dat1.length}&quot;);
+  print(&quot;dat1[2] = ${dat1[2]}\n&quot;);
+  
+  var slice = dat1.getRange(1, 3).toList();
+  print(&quot;\ndat1.getRange(1,3).toList() = $slice&quot;);
+  
+  slice = List.from(dat1.take(3));
+  print(&quot;\nList.from(dat1.take(3)) = $slice&quot;);
+}</code></pre></div><div id="d8ff42c0-04a6-4e8c-bcd9-772e732fb83a" style="width:37.50000000000001%" class="column"><figure id="05e59f57-02b8-45b8-9e06-0634b6148cb4" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2013.png"><img style="width:288px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2013.png"/></a></figure></div></div><h3 id="17cf2370-2cc4-4ecd-9524-8e0f76048a50" class="block-color-orange">Remove items from List</h3><div id="bc049e33-a147-4a67-bb61-9e2f43d3435b" class="column-list"><div id="a8d76e9f-44bd-495a-aaed-cafaec572667" style="width:62.5%" class="column"><pre id="3ad493ce-a851-487f-8b2d-3adcf4dc6b84" class="code"><code>void main() {
+  List&lt;int&gt; dat1 = [7, 54, 80, 1, 93, 64, 65, 28, 37, 2];
+  print(&quot;dat1 = $dat1\n&quot;);
+  dat1.removeAt(3);
+  print(&quot;dat1.removeAt(3)\ndat1 = $dat1\n&quot;);
+  dat1.remove(80);  
+  print(&quot;dat1.remove(80)\ndat1 = $dat1\n&quot;);
+  dat1.removeWhere((x) =&gt; x%2==1);
+  print(&quot;dat1.removeWhere((x) =&gt; x%2==1)\ndat1 = $dat1\n&quot;);
+  dat1.removeRange(1,3);
+  print(&quot;dat1.removeRange(1,3)\ndat1 = $dat1\n&quot;);
+  dat1.clear();  
+  print(&quot;dat1.clear()\ndat1 = $dat1&quot;);
+}</code></pre></div><div id="b5717670-9d03-429b-b118-2c10ada620ca" style="width:37.5%" class="column"><figure id="7c1159b5-c4a2-462e-a5a4-0adfa7be995e" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2014.png"><img style="width:1055px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2014.png"/></a></figure></div></div><h3 id="cd7244a0-304b-4916-bf55-0e6806475f54" class="block-color-orange">Update List item</h3><div id="0e3ca639-a62c-4c19-bff0-fa05b4cf0491" class="column-list"><div id="6e60e599-c129-4ddb-9ef4-261aff5a24e1" style="width:62.5%" class="column"><pre id="a3507b4d-4975-47dc-95ac-35971a3151f4" class="code"><code>void main() {
+  List&lt;int&gt; dat1 = [7, 54, 80, 1, 93, 64, 65, 28, 37, 2];
+  print(&quot;dat1 = $dat1\n&quot;);
+  dat1.replaceRange(1,2,[88]);
+  print(&quot;dat1.replaceRange(1,2,[88])\ndat1 = $dat1\n&quot;);
+  dat1.replaceRange(2,3,[77,66]);
+  print(&quot;dat1.replaceRange(2,3,[77,66])\ndat1 = $dat1\n&quot;);
+  dat1.replaceRange(0,4,[11]);
+  print(&quot;dat1.replaceRange(0,4,[11])\ndat1 = $dat1&quot;);
+}</code></pre></div><div id="0bb0afa2-d4bc-48b8-8fca-8fdbefb36189" style="width:37.5%" class="column"><figure id="cc4dd814-7a8c-428b-9c6f-68562d5b8129" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2015.png"><img style="width:288px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2015.png"/></a></figure></div></div><h3 id="20192e78-0b26-4752-a657-008f66b162fc" class="block-color-orange">Iterate Over A List</h3><div id="2230b163-8b18-48ba-a901-ef5e36e0bb47" class="column-list"><div id="13bd129b-e340-4572-a890-f24a57d8ff6c" style="width:50%" class="column"><pre id="be6923a6-f3da-413a-8b47-259f7e0beac7" class="code"><code>void main() {
+  List&lt;int&gt; dat1 = [7, 54, 80, 1, 93, 64];
+  for (var i = 0; i &lt; dat1.length; i++) {
+    print(dat1[i]);
+  }
+}</code></pre></div><div id="b6dde919-dc10-4784-81e3-6d1d54da4c88" style="width:50%" class="column"><pre id="f101c789-6add-4f51-903e-77a5962939d0" class="code"><code>void main() {
+  List&lt;int&gt; dat1 = [7, 54, 80, 1, 93, 64];
+  for(var x in dat1){
+    print(x);
+  }
+}</code></pre></div></div><h3 id="f6144201-33d7-42ce-832e-9094c476a53f" class="block-color-orange">Iterable objects</h3><div id="5bbb14b4-7063-48e4-bb73-f5e8ce3b9cf5" class="column-list"><div id="a6eef627-34bc-4051-9e8c-5e86734b0f44" style="width:50.000000000000014%" class="column"><pre id="987f39bc-5b66-4de7-a9fb-a37c643a4bf5" class="code"><code>void main() {
+  List&lt;int&gt; dat1 = [7, 54, 80, 1, 93, 64];
+  dat1.forEach((x) =&gt; print(x));
+}</code></pre><pre id="5deb0576-dee1-4653-b18f-56ff0716ad47" class="code"><code>void main() {
+  List&lt;int&gt; dat1 = [7, 54, 80, 1, 93, 64];
+  dat1.forEach(print);
+}</code></pre></div><div id="fe0995fb-524a-4cdc-9deb-954d5b00cf11" style="width:50%" class="column"><figure id="1e8c8bd8-a0ee-4ace-81d8-7d1c3174bd7a" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2016.png"><img style="width:240px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2016.png"/></a></figure></div></div><div id="766462e7-3831-4fa1-b91f-447203e548db" class="column-list"><div id="7f6e22fe-dccd-4e2a-9ad8-017b2c46e769" style="width:50%" class="column"><h3 id="dbf75f4d-4922-4758-a63d-6e90f71afd2e" class="block-color-orange">Iterator</h3><pre id="4592bf33-3ec9-466e-97f0-7ea4714ac85f" class="code"><code>void main() {
+  List&lt;int&gt; dat1 = [7, 54, 80, 1, 93, 64];
+  var ite = dat1.iterator;
+  while(ite.moveNext()) {
+    print(ite.current);
+  }
+}</code></pre></div><div id="cc5a81f3-d26b-42cd-947d-d4a00b075c08" style="width:50%" class="column"><figure id="02797bdc-5b99-46f0-9d19-08d7e2a21d3d" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2017.png"><img style="width:1508px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2017.png"/></a></figure></div></div><p id="510e207b-8abc-4cac-9cc9-2c9fc8bcac38" class="">
+</p><h3 id="d32eacfa-30de-4cc6-be3d-f88ada319f5a" class="block-color-gray_background">更詳細的操作說明，請參閱『翻轉教室輔助影片』...</h3><figure id="b1b9550a-d5df-47a8-bc48-022a7ed2aaa8" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2018.png"><img style="width:1322px" src="Flutter%20%E5%9F%BA%E7%A4%8E%206%20-%20Dart%20Lists%20(Basics,%20Access,%20Update,%200c51313341944cbf9688375d93e0ad82/Untitled%2018.png"/></a></figure></div></article></body></html>
