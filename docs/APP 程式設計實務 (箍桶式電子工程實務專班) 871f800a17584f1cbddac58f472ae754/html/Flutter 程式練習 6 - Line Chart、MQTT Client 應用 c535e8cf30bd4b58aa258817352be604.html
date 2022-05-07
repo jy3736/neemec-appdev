@@ -1,0 +1,770 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Flutter 程式練習 6 - Line Chart、MQTT Client 應用</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+}
+
+.simple-table-header {
+	background: rgb(247, 246, 243);
+	color: black;
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(145, 145, 142, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(187, 132, 108, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(215, 129, 58, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 148, 51, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(108, 155, 125, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(91, 151, 189, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(167, 130, 195, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(205, 116, 159, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(225, 111, 100, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c535e8cf-30bd-4b58-aa25-8817352be604" class="page sans"><header><img class="page-cover-image" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%201%20-%20%E7%AC%AC%E4%B8%80%E5%80%8B%20Flutter%20App%20fb2ac1338ef3447f8d4a13547d704077/flutter-1.png" style="object-position:center 0%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="SCRCPY%20-%20Android%20%E6%89%8B%E6%A9%9F%E9%8F%A1%E5%83%8F%E5%B7%A5%E5%85%B7%201254b073b0f34315bf7d8bbe2d76f581/yang-tr-wb.png"/></div><h1 class="page-title"><strong>Flutter </strong>程式練習<strong> 6</strong> - Line Chart、MQTT Client 應用</h1></header><div class="page-body"><h1 id="6c9c9ec1-20b3-4adc-a581-7ff18752ffc2" class="block-color-purple_background">參考資料</h1><figure id="d02ab9ef-3a41-4589-843e-492262575785"><a href="https://github.com/jy3736/neemec-appdev/tree/main/labs/flutter_06" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">neemec-appdev/labs/flutter_06 at main · jy3736/neemec-appdev</div><div class="bookmark-description">Contribute to jy3736/neemec-appdev development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/jy3736/neemec-appdev/tree/main/labs/flutter_06</div></div><img src="https://opengraph.githubassets.com/ad8341b8e395a13b660c37af1bdb16c2db154b1e3a85f410dac315d776d7ac9c/jy3736/neemec-appdev" class="bookmark-image"/></a></figure><figure id="30c26071-be66-4152-be8b-d0cc61c8f8b3"><a href="https://dart.dev/guides" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Dart documentation</div><div class="bookmark-description">Learn to use the Dart language and libraries.</div></div><div class="bookmark-href"><img src="https://dart.dev/assets/shared/dart/icon/64.png" class="icon bookmark-icon"/>https://dart.dev/guides</div></div><img src="https://dart.dev/assets/shared/dart-logo-for-shares.png?2" class="bookmark-image"/></a></figure><div id="52e83ac9-9058-47e1-ba9c-a88fce2f9e11" class="column-list"><div id="13bfd42f-fa8c-4c2e-b246-7bf2d87b4b09" style="width:50%" class="column"><figure id="ce63f739-305a-4aea-ba45-f41f661959dd"><a href="https://help.syncfusion.com/flutter/cartesian-charts/overview" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">About Flutter Cartesian Charts widget | Syncfusion</div><div class="bookmark-description">8 Oct 20212 minutes to read Syncfusion Flutter Cartesian Charts (SfCartesianChart) widget is written natively in Dart for creating beautiful and high-performance Cartesian charts, which are used to craft high-quality applications using Flutter. To get start quickly with our Flutter chart widget, you can check on this video.</div></div><div class="bookmark-href"><img src="https://help.syncfusion.com/favicon.ico" class="icon bookmark-icon"/>https://help.syncfusion.com/flutter/cartesian-charts/overview</div></div></a></figure></div><div id="700ea7e4-edbf-45a0-8e4a-3f682165e8e3" style="width:50%" class="column"><figure id="a74ec573-9d13-4684-bdae-897dfa456f3b"><a href="https://pub.dev/packages/mqtt_client" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">mqtt_client | Dart Package</div><div class="bookmark-description">A server and browser based MQTT client for Dart. The client is an MQTT v3(3.1 and 3.1.1) implementation supporting subscription/publishing at all QOS levels, keep alive and synchronous connection. The client is designed to take as much MQTT protocol work off the user as possible, connection protocol is handled automatically as are the message exchanges needed to support the different QOS levels and the keep alive mechanism.</div></div><div class="bookmark-href"><img src="https://pub.dev/favicon.ico?hash=nk4nss8c7444fg0chird9erqef2vkhb8" class="icon bookmark-icon"/>https://pub.dev/packages/mqtt_client</div></div><img src="https://pub.dev/static/img/pub-dev-icon-cover-image.png?hash=vg86r2r3mbs62hiv4ldop0ife5um2g5g" class="bookmark-image"/></a></figure></div></div><h1 id="631180e8-39c4-4aca-8f4a-f47d93f0b70a" class="block-color-purple_background">課程設計</h1><h2 id="8bff10cd-3354-4d1a-96c9-02ac03155c1b" class="block-color-orange">課堂練習 1： 期末微型專題 UI 設計參考範例。 (flutter_06/thermometer)</h2><div id="67c0b350-4eb7-472b-86ba-51bef1027c79" class="column-list"><div id="9b4a4123-5352-4631-8e3e-018ae1a2b666" style="width:68.75%" class="column"><figure id="865ddedb-a520-477a-9727-e47fb791b1df" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled.png"><img style="width:1510px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled.png"/></a></figure><figure id="860dc563-e2e8-4b2e-8096-08a14724a859" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%201.png"><img style="width:1499px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%201.png"/></a></figure><figure id="d7742103-fab3-4828-8121-073d94e772df" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%202.png"><img style="width:1505px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%202.png"/></a></figure><figure id="404d2509-1d28-4df3-85b5-f78eae3002b9" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%203.png"><img style="width:1499px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%203.png"/></a></figure></div><div id="f24eb845-2a21-48c6-aa2a-1593d688fc16" style="width:31.25%" class="column"><figure id="92887533-313d-4ab9-97ed-d4080d465afc" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%204.png"><img style="width:509px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%204.png"/></a></figure><p id="7922917d-b747-460a-bda7-3942885fefbd" class="">
+</p><p id="64db5b70-fe1b-4d19-be9b-1539cb43a059" class="">
+</p><p id="164b39e6-0aa1-470b-9f85-aa2d135a3b35" class="">
+</p><p id="b46f3b27-a74d-4443-86b0-7dd8b31dbf0d" class="">
+</p><p id="a18f961c-538a-42d5-9760-96e0561a8b44" class="">
+</p><p id="4f2dcb9b-a2b0-42d0-a4f1-a1d8cf7b094f" class="">
+</p></div></div><h2 id="7db972cf-bea6-4cd8-9ac6-9f9ee65ac40b" class="block-color-orange">課堂練習 2： 實時折線圖(<strong>SfCartesianChart)</strong>設計範例。 (flutter_06/realtime_chart)</h2><div id="2ce9fa3d-7bb3-4c5d-aaf6-c1a9d99bbce3" class="column-list"><div id="e251204b-762e-480c-8578-a998cea1d3b1" style="width:68.75%" class="column"><figure id="fa1869e3-3222-4748-a8af-f1185d29ee68" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%205.png"><img style="width:1487px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%205.png"/></a></figure><figure id="f9d409e1-4f02-4768-8457-701b905e7c97" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%206.png"><img style="width:1508px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%206.png"/></a></figure><figure id="793fe2da-f92e-411f-9519-dcd1ceb1178d" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/ch2.gif"><img style="width:907px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/ch2.gif"/></a></figure><figure id="db45f1e8-42ba-4796-8368-aa79c2f8202f" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%207.png"><img style="width:1503px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%207.png"/></a></figure><figure id="7207e9b0-73f6-4f7a-9f9a-fe675dea3f0e" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%208.png"><img style="width:1513px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%208.png"/></a></figure></div><div id="8c9a9b4f-796e-4626-83f3-819ae8490645" style="width:31.250000000000007%" class="column"><figure id="9b62804f-b6ab-43e1-a0c8-ca9174e77978" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/ch1.gif"><img style="width:512px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/ch1.gif"/></a></figure><p id="47c09978-64de-42d9-af29-074a4165882a" class="">
+</p><p id="0adb3bd4-75ed-4def-bd0b-552cf46897e9" class="">
+</p><p id="2cad3fc8-b41a-43d1-9ddf-54aad87ab7c9" class="">
+</p><p id="499ade47-c909-45e7-a1ef-e403f63ef7d3" class="">
+</p></div></div><p id="bf95e659-2414-4598-9c0d-57bebdd2583f" class="">
+</p><h2 id="e46c6c95-f199-4c9b-8f9f-d98a51842b02" class="block-color-orange">課堂練習 3： MQTT 客戶端訂閱/發布設計範例。 (flutter_06/mqtt_client)</h2><div id="fae879ca-15ba-4ad0-9649-1f96209a9262" class="column-list"><div id="a8fd7668-7778-47d7-a8f0-e3dd2c4dd3af" style="width:68.75%" class="column"><figure id="1845e530-d781-4791-95cb-76dde874e30e" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%209.png"><img style="width:1477px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%209.png"/></a></figure><figure id="fb05a807-ba63-462e-8921-a71aa8ce8879" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2010.png"><img style="width:1503px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2010.png"/></a></figure><figure id="6a1f93e9-afb9-417f-9257-2efd430b92a9" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2011.png"><img style="width:1489px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2011.png"/></a></figure><figure id="fa5c0cc1-86e4-49ce-8bda-84172965c3af" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2012.png"><img style="width:1494px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2012.png"/></a></figure></div><div id="534c266e-7319-4d66-be14-f37aafa8d56d" style="width:31.25%" class="column"><figure id="1d9241c1-758d-4ba7-a9e7-152d8db05dc1" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2013.png"><img style="width:544px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2013.png"/></a></figure></div></div><p id="885901d8-9898-4029-9663-f16a42e150b1" class="">
+</p><h2 id="c14cdbc1-5dd5-4e0e-b323-17eb3698d750" class="block-color-orange">課堂練習 4： 實時折線圖 + 『虛擬』物聯網感測裝置發布 MQTT 訊息。 (flutter_06/mqtt_read_rt)</h2><div id="363a8ce0-a481-460a-befe-c42b9748da6a" class="column-list"><div id="53652876-a42b-47b8-ac83-122b94a39cef" style="width:68.75%" class="column"><figure id="d1df2971-90b4-4edb-bb37-12db34e7b4e6" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2014.png"><img style="width:1498px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2014.png"/></a></figure><figure id="42f232fa-c505-4716-b34e-3da5d212e9cb" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/rt2.gif"><img style="width:867px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/rt2.gif"/></a></figure><figure id="f6297f1b-6d7c-449f-801a-6554cc786310" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2015.png"><img style="width:1494px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2015.png"/></a></figure><figure id="79a6fe2a-3117-487f-a13b-2da05d206872" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2016.png"><img style="width:1508px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/Untitled%2016.png"/></a></figure></div><div id="6e60d5fa-0230-4037-ba5e-b389df3f3f55" style="width:31.249999999999993%" class="column"><figure id="a0a0e3e7-c57b-442c-9739-c4df2e18c971" class="image"><a href="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/rt1.gif"><img style="width:606px" src="Flutter%20%E7%A8%8B%E5%BC%8F%E7%B7%B4%E7%BF%92%206%20-%20Line%20Chart%E3%80%81MQTT%20Client%20%E6%87%89%E7%94%A8%20c535e8cf30bd4b58aa258817352be604/rt1.gif"/></a></figure></div></div><h3 id="a04aa874-2770-465e-8aee-3af79711b068" class="block-color-yellow">『虛擬咖啡烘豆機鍋爐溫度』感測裝置發布 MQTT 訊息 - Python 設計範例。(flutter_06/py_mqtt)</h3><h2 id="e8594d20-2d81-47f2-924c-e97ad86e1455" class=""><code>mylib.py</code></h2><pre id="fdb22b4e-e015-4d30-ac7a-6f90be633d67" class="code code-wrap"><code>from random import randrange
+
+class CoffeeRoasting:
+    def __init__(self, sRate=5):
+        self.ns = [
+            [220, 210, 30],
+            [150, 90, 90],
+            [155, 92, 30],
+            [170, 95, 30],
+            [190, 160, 180],
+            [200, 170, 180],
+            [205, 190, 60],
+            [215, 200, 90],
+            [220, 210, 60],
+            [225, 220, 180],]
+        self.k2, self.k1, self.kt1, self.kt2 = 220, 220, 210, 210
+        self.state = 0
+        self.rate = sRate
+        self.step = 60//self.rate
+        self.clk = -1*self.rate
+
+    def next(self):
+        self.clk += self.rate
+        if self.k1 == self.kt1:
+            self.kt2 = self.ns[self.state][0];
+            self.kt1 = self.ns[self.state][1];
+            self.step = self.ns[self.state][2]//self.rate;
+            self.state+=1
+        if self.state &gt;= len(self.ns):
+            self.state = 0
+        if self.step &gt;= 1:
+            dt1 = (self.k1 - self.kt1) / self.step*randrange(1,3)
+            dt2 = (self.k2 - self.kt2) / self.step
+            self.k1 -= dt1           
+            self.k2 -= dt2           
+            if self.step == 1: 
+                self.k1, self.k2 = self.kt1, self.kt2
+            self.step-=1      
+            self.k1 = float(f&quot;{self.k1:5.1f}&quot;)
+            self.k2 = float(f&quot;{self.k2:5.1f}&quot;)
+        return self.clk, self.k1, self.k2</code></pre><h2 id="88c0d1c9-3006-4493-826b-581d945b233e" class=""><code>mqtt_tdg.py</code></h2><pre id="f0bd506d-395f-460c-b450-1a441e54fdac" class="code code-wrap"><code>from mylib import CoffeeRoasting
+import paho.mqtt.client as mqtt
+from time import sleep
+import sys
+import signal
+
+def Exit_gracefully(signal, frame):
+    print(&quot;\n&gt;&gt;&gt;&gt; Bye.\n&quot;)    
+    sys.exit(0)
+
+# -----------------------------------------------
+# 一定要與你的 Dart 程式對應修改。
+# -----------------------------------------------
+TOPIC  = f&quot;你訂閱的MQTT訊息主題&quot;   
+
+BROKER = &quot;broker.emqx.io&quot;
+PORT   = 1883
+Client = None
+
+# MQTT-Connected call-back function 
+def on_connect(client, userdata, flags, rc):
+    print(f&quot;Connected with result code {rc}&quot;)
+
+# Create MQTT client and connect to the broker
+def connect_broker():
+    global Client, TOPIC, GROUP
+    Client = mqtt.Client()
+    Client.on_connect = on_connect
+    Client.connect(BROKER, PORT, keepalive=60)
+    # Clear the retained message send by Kittenblock
+    Client.publish(topic=TOPIC, payload=None, retain=True)
+
+# Send test commands with TOPIC to the broker
+def pub_cmds(cmds):
+    global Client, TOPIC
+    for cmd in cmds:
+        Client.publish(topic=TOPIC, payload=cmd, retain=False)
+        print(f&quot;send &#x27;{cmd}&#x27; to &#x27;{TOPIC}&#x27;&quot;)
+        time.sleep(1)
+
+def main():
+    connect_broker()
+    temp = CoffeeRoasting(5)
+    clk = 0   
+    while True:
+        clk, k1, k2 = temp.next()
+        cmd = f&quot;{clk}:{k1:.1f}:{k2:.1f}&quot;
+        print(f&quot;{clk:5} {k1:6.1f} {k2:6.1f}&quot;)   
+        Client.publish(topic=TOPIC, payload=cmd, retain=False)
+        sleep(0.5)
+
+# Main Loop
+# ------------------------------------------
+if __name__==&quot;__main__&quot;:
+    print(&quot;&quot;&quot;
+*********************************************
+* Press CTRL+C to stop test data generation *
+*********************************************
+          &quot;&quot;&quot;)
+    signal.signal(signal.SIGINT, Exit_gracefully)
+    main()</code></pre><p id="110c77af-3341-4d14-888a-7f3dfbe4f845" class="">
+</p><figure id="8ca585c3-9b9b-43ac-bb36-a722482bc811" class="image"><a href="Flutter%20%E5%9F%BA%E7%A4%8E%201%20-%20Flutter%20Dart%20SDK%20%E5%AE%89%E8%A3%9D%204a9d1aa549374c1da575d137f1941253/end2.png"><img style="width:4538px" src="Flutter%20%E5%9F%BA%E7%A4%8E%201%20-%20Flutter%20Dart%20SDK%20%E5%AE%89%E8%A3%9D%204a9d1aa549374c1da575d137f1941253/end2.png"/></a></figure><p id="19907529-b4e5-4648-9988-02d11ceb3a35" class="">
+</p></div></article></body></html>
