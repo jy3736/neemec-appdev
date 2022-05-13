@@ -1,0 +1,682 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>翻轉教室影音教材 (APP 程式設計實務)</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></head><body><article id="25db8909-d8d8-48c7-b269-71648899a2dc" class="page sans"><header><img class="page-cover-image" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/app_inventor_01.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/yang01%201.png"/></div><h1 class="page-title">翻轉教室影音教材 (APP 程式設計實務)</h1><link rel="stylesheet" href="dark-theme.css"><link rel="stylesheet"  target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github-dark-dimmed.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script></header><div class="page-body"><h1 id="8f9b314b-19ef-4490-a014-e833b0d9c806" class="block-color-yellow_background">『原創』翻轉教室影片、線上講義、範例專案</h1><div id="9f0a03b1-4779-44a2-a0ad-01803bcdde08" class="column-list"><div id="fdecbf33-f771-4b0e-818f-68b0642e409e" style="width:12.5%" class="column"><figure id="a0b1add2-4612-4907-b38e-78328b6f5f3c" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/yang02.png"><img style="width:84px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/yang02.png"/></a></figure><p id="c5c29e56-bf2e-4293-b17e-fb8654608295" class="">
+</p></div><div id="2e41ee32-2725-4585-8aed-9c4cceffcb96" style="width:87.5%" class="column"><figure class="block-color-yellow callout" style="white-space:pre-wrap;display:flex" id="0c4a7a66-b534-41f8-87ed-eb83ee004227"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">本教材的規劃與設計方式，沿用本人今年榮獲109年『績優教學實踐計畫』的課程設計，因是第二次採用『複習翻轉』教學策略，整個教材的內容更加完整豐富。</div></figure><p id="13c10e56-ee35-4260-8046-3559beda1efe" class="block-color-yellow_background"><a  target="_blank" href="https://tpreval.stpi.narl.org.tw/achievement/plan-detail?id=4b1141f07efd9000017f1a5e8b590070">109年『績優教學實踐計畫』- </a><a  target="_blank" href="https://tpreval.stpi.narl.org.tw/achievement/plan-detail?id=4b1141f07efd9000017f1a5e8b590070"><strong><strong>單晶片微處理機實務翻轉教學策略實踐研究</strong></strong></a></p></div></div><h3 id="dfec1c05-5236-4a46-a1a7-dca9eebef890" class=""><mark class="highlight-yellow"><strong>數位教材講義：</strong></mark><a  target="_blank" href="https://jy3736.github.io/neemec-appdev/">https://jy3736.github.io/neemec-appdev/</a></h3><h3 id="16d861de-60d0-4568-8fc1-c2502b9ab8e7" class=""><mark class="highlight-yellow"><strong>教學影片清單：</strong></mark><a  target="_blank" href="https://www.youtube.com/playlist?list=PLx2JssCji9QwDSJbi7MYlnxacdyJ9keo0">https://www.youtube.com/playlist?list=PLx2JssCji9QwDSJbi7MYlnxacdyJ9keo0</a></h3><h3 id="6f941652-9fab-47c8-a93f-fa56c1feadd6" class=""><mark class="highlight-yellow">APP範例專案： </mark><a  target="_blank" href="https://github.com/jy3736/neemec-appdev/tree/main/labs">https://github.com/jy3736/neemec-appdev/tree/main/labs</a></h3><p id="54909a9e-bf01-478e-b4f8-671242ff2188" class="">
+</p><h3 id="a7534ad3-cf64-46a5-8e13-a4c6fc4ebf69" class="block-color-yellow_background">實際用於教學科目(課程代碼/課程名稱)</h3><p id="2490ff45-be72-44e2-a64b-2dd7725fa8e3" class="">課程代碼：<strong>30D1DU02</strong></p><p id="f0cc7e20-0320-4247-85e9-06e7539f70f3" class="">課程名稱：<strong>APP程式設計實務</strong></p><p id="0bfbd46b-18ea-42da-9235-2e9a29800ed1" class="">上課班級：<strong>四技電子三丁(箍桶式電子工程實務專班)</strong></p><figure id="dc581b87-a0cf-4efa-8447-da7ffe696a7f" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/APP%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99_(2021_Fall).svg"><img style="width:1348px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/APP%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99_(2021_Fall).svg"/></a></figure><h3 id="d71964ac-8f15-42fb-89eb-8f82bf116e89" class="block-color-yellow_background">申請類別： 編纂教材</h3><ul id="9f7d35dd-5baf-4d7c-9fc6-b3f3e9718089" class="bulleted-list"><li style="list-style-type:disc">編纂教材：『原創』數位教材 <ul id="a4ba0388-b05d-4671-a37b-81fb6b6006ae" class="bulleted-list"><li style="list-style-type:circle">線上教材：<ul id="e847c2e4-0313-4864-ad5e-33e244377ff7" class="bulleted-list"><li style="list-style-type:square">教材連結：<a  target="_blank" href="https://jy3736.github.io/neemec-appdev/">https://jy3736.github.io/neemec-appdev/</a></li></ul><ul id="37b20ee4-1ed3-4c45-a93d-d63ebc006d07" class="bulleted-list"><li style="list-style-type:square">依課程規劃設計 3 大主題，共計 31 個教學單元。</li></ul></li></ul><ul id="9e90022d-bcb0-4b18-b2bc-16a7f07e5143" class="bulleted-list"><li style="list-style-type:circle">教學影片：<ul id="dd153939-7ce4-46b3-9ec5-533898f1c354" class="bulleted-list"><li style="list-style-type:square"> YouTube 播放清單連結： <a  target="_blank" href="https://youtube.com/playlist?list=PLx2JssCji9QwDSJbi7MYlnxacdyJ9keo0">https://youtube.com/playlist?list=PLx2JssCji9QwDSJbi7MYlnxacdyJ9keo0</a></li></ul><ul id="15486fb9-649b-4e89-a665-a745a24144f7" class="bulleted-list"><li style="list-style-type:square">依課程規劃及課堂上觀察學生需求設計錄製的23部影片，約莫9個小時。</li></ul><ul id="efb4227c-6a19-4264-bcca-88502dc7e177" class="bulleted-list"><li style="list-style-type:square">所有教學影片皆為客製化錄製影片，並非『側錄』課堂上課過程。</li></ul></li></ul><ul id="f074f803-0e6d-4de0-94f7-eb5913bb44d1" class="bulleted-list"><li style="list-style-type:circle">課堂練習專案 (Github 雲端平臺)：<ul id="ae66cd83-e0ea-4c72-bccf-4583e5ec2908" class="bulleted-list"><li style="list-style-type:square">線上教具連結：<a  target="_blank" href="https://github.com/jy3736/neemec-appdev/tree/main/labs">https://github.com/jy3736/neemec-appdev/tree/main/labs</a></li></ul><ul id="0de05a88-46f7-423e-a738-e4761d4062f2" class="bulleted-list"><li style="list-style-type:square">7 個依進度設計的完整練習專案 + 期末專題參考專案，共計 38 個『原創』APP範例專案。</li></ul></li></ul></li></ul><h1 id="0896c279-ab5e-4c18-9570-ed242c2daa7c" class=""><strong>作品摘要說明</strong></h1><h3 id="20071826-bbe7-400b-9557-dc7ff2140614" class="block-color-yellow_background">完整性(教材內容與課程大綱內容結合情形)</h3><div id="f70170e8-2a70-477a-ae13-2426f94793c1" class="column-list"><div id="4c7de317-db8a-4ab1-943c-1a732b5468e1" style="width:18.75%" class="column"><figure id="1653da34-5edb-44d9-92b2-2769604e2eb9" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/yang01.png"><img style="width:694px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/yang01.png"/></a></figure></div><div id="eeb7aa71-c681-465f-bc90-39dde880f159" style="width:81.25%" class="column"><p id="c3a5e93b-a443-4c85-adaa-78d26dca7947" class="">本教材是依『數據分析與管理課群』的課程需求『APP程式設計實務』，規劃開發的翻轉教室影音教材，學習內容包含：『APP程式設計入門』、『Flutter框架Dart程式語言』、『Flutter框架APP專案開發』，同時採用『低門檻』的App Inventor 2及『商用級』的Flutter APP開發框架授課，藉由雙軌並行的差異化教學方式，確保所有同學都能在學期末完成微型專題。</p><p id="a25c57c4-984d-428d-9313-f7fb4d611b96" class="">『APP程式設計入門』課程單元是採用App Inventor 2 (AI2)作為APP開發工具，這個階段的課程內容適合所有程度的學生參與學習，後半段的課程則引入了Google大力推廣的跨平臺APP開發框架Flutter，該框架適用於Android、iOS、Windows、Mac、Linux、Google Fuchsia 應用程式開發，Flutter擁有豐富且方便的元件(widget)及優異的性能表現，適合有高效能APP應用程式開發需求且程式設計能力較佳的同學。不論是AI2或是Flutter框架開發工具，教材內容都包含了基礎的使用者介面(UI)設計、應用程式開發、及Firebase資料庫應用，在Flutter的部分增加了MQTT通訊協定的應用，讓同學可在行動裝置上開發物聯網(IoT)應用程式。</p></div></div><p id="99db4a68-111d-4b97-bb1e-50540180b3ed" class="">
+</p><p id="3bca1da0-41d7-44b3-8015-d7ed0bb44544" class="">課程大綱：</p><ol type="1" id="e75901f0-a8fe-4581-9344-28bde40e4d6f" class="numbered-list" start="1"><li>課程簡介及開發工具<ul id="923b16de-cd26-4269-8cab-136d6eeac950" class="bulleted-list"><li style="list-style-type:disc">App 開發及測試工具</li></ul><ul id="b81569ee-d9f1-40bc-8164-d21c2efb9bb6" class="bulleted-list"><li style="list-style-type:disc">Google Dart/Flutter 簡介</li></ul></li></ol><ol type="1" id="87670926-c67e-4f28-9971-00049eb5df07" class="numbered-list" start="2"><li>Android 裝置程式設計入門 - MIT App Inventor 2<ul id="674ff4b9-f402-4859-8199-6045fc43ab82" class="bulleted-list"><li style="list-style-type:disc">App Inventor 2 基本操作 UI 、積木程式設計</li></ul><ul id="11811e01-8014-4dcf-b100-443d9cfed977" class="bulleted-list"><li style="list-style-type:disc">App Inventor 2 Firebase 資料庫應用</li></ul><ul id="77c11961-799a-4e1c-802c-04a94e7dea1e" class="bulleted-list"><li style="list-style-type:disc">App Inventor 2 微型設計專案</li></ul></li></ol><ol type="1" id="84c83720-ed5c-4829-9770-2c07f0d51939" class="numbered-list" start="3"><li>App Inventor 2 期中微型專題<ul id="ac523bd0-9808-4c38-9853-59af17ade6c5" class="bulleted-list"><li style="list-style-type:disc">物聯網 K-Type 工業溫度表</li></ul></li></ol><ol type="1" id="22dd404c-28d3-44d7-91d8-a67a5e034049" class="numbered-list" start="4"><li>Google 跨平台 App 開發框架 - Flutter 程式設計基礎<ul id="67a009bb-2a7b-43e1-9024-ea583a881a67" class="bulleted-list"><li style="list-style-type:disc">Flutter/Dart SDK 安裝</li></ul><ul id="1cb98995-b0a1-4000-b333-b2760cf18ebc" class="bulleted-list"><li style="list-style-type:disc">Dart 基礎程式設計</li></ul></li></ol><ol type="1" id="e6a82d2a-4cba-45ce-8e17-4c77792440f2" class="numbered-list" start="5"><li>Google 跨平台 App 開發框架 - Flutter 專案設計練習<ul id="71bbe716-2899-4220-a063-58bc45781312" class="bulleted-list"><li style="list-style-type:disc">Flutter開發框架簡介</li></ul><ul id="499c21e9-802c-4d0f-98bd-739e5d944bc8" class="bulleted-list"><li style="list-style-type:disc">Flutter 框架專案設計範例</li></ul><ul id="cb9efa30-14a9-4185-90e0-c0e8e9cf58da" class="bulleted-list"><li style="list-style-type:disc">Flutter物聯網 MQTT設計應用</li></ul><ul id="0dcd89e8-f447-4ae6-8dfe-baf5d09398c9" class="bulleted-list"><li style="list-style-type:disc">Flutter Firebase 資料庫應用</li></ul></li></ol><ol type="1" id="dc0b8762-c306-4a22-9e3f-3089259b46e3" class="numbered-list" start="6"><li>Android App期末微型專題<ul id="d45e3114-3efe-4df4-b055-091e4bd787a0" class="bulleted-list"><li style="list-style-type:disc">物聯網(IoT)交通號誌控制系統 (參考專題)</li></ul><ul id="7fe7932f-4a52-4202-bb1b-7839fa43921e" class="bulleted-list"><li style="list-style-type:disc">物聯網 K-Type 工業溫度表 (Flutter 版本)</li></ul></li></ol><h3 id="240f0e5f-4ca5-4e94-963f-faeb1f130aa9" class="block-color-yellow_background">創新性(教材原創性及貢獻度，說明該作品與類似作品之差異或優於類似教材部分)</h3><div id="22648064-3872-444a-8633-56ed287ccc12" class="column-list"><div id="40ed10f2-6121-4b25-82cd-1b20bb407a9b" style="width:18.75%" class="column"><figure id="a48ecd4c-fb30-45ea-a588-07901dc5eee6" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/%E5%9C%96%E7%89%874.png"><img style="width:144px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/%E5%9C%96%E7%89%874.png"/></a></figure></div><div id="25940a4e-507a-4ce4-8895-fbb2405f7521" style="width:81.25%" class="column"><p id="36fb6f35-8685-439e-a2b6-307b3be9e31f" class="">本教材所有的範例程式及翻轉教室影音教材皆為本人『原創作品』，沒有使用任何書商提供的教材，因此也沒有指定教科書，所有教材內容都是本人搜尋國內外資料整理設計，引用到的外部參考資料也都有明確表列來源網址。教學方法與知識承載的媒體也做了大幅度的改變，全部使用E世代學生熟悉的 YouTube、線上教材、及雲端 Github 練習程式及專案庫，有別於傳統的課堂授課方式，本課程融合了翻轉教室、做中學、及適性化教學等技巧，藉由漸進式調整的方式來因應近年來學生程度的轉變，不論是教學內容、授課方式、及教材呈現，都是針對南臺學生學習狀況客製化改良設計。</p></div></div><p id="cd8bcece-fc8a-48f2-834a-f1a27ed97db4" class="">本教材內容以線上筆記軟體 Notion 設計編纂，適合行動裝置及個人電腦閱讀以減少紙張的使用，且方便日後更新及與其他教師共筆編修，本教材所有講義以網頁形式分享於網際網路 Github平臺，所有翻轉教室影音教材已在上課期間上傳至YouTube，Flutter APP設計練習專案也存放於公開的雲端Github空間。</p><p id="cd5b936a-6ebc-410d-b878-0c11fe2c99a7" class="">本教材共31個單元，單元3至單元23含翻轉教室影音教材約莫9小時，單元24至單元31提供38個完整的Flutter練習專案，教材大綱對應的單元有：課程簡介及開發工具(單元1~4)、Android 裝置程式設計入門(單元5~14)、App Inventor 2 期中微型專題(單元15)、Flutter 程式設計基礎(單元16~23)、Flutter 專案設計練習(單元24~30)、及Android App 期末微型專題(單元31)，完整單元標題表列如下:</p><p id="bce530b4-f4c1-4dc4-9563-dbe5038aa9af" class=""><div class="indented"><ol type="1" id="78531dde-cd2b-4abe-8ac4-5576b880f15c" class="numbered-list" start="1"><li>課程簡介</li></ol><ol type="1" id="dece0016-3971-4374-993d-a3a5ccaa1666" class="numbered-list" start="2"><li>Google Dart/Flutter 簡介</li></ol><ol type="1" id="eb5d49c2-6595-4351-9ef1-122bd4b55c97" class="numbered-list" start="3"><li>SCRCPY - Android 手機鏡像工具</li></ol><ol type="1" id="8389c194-7ce9-4cb8-adaf-15112705f428" class="numbered-list" start="4"><li>使用 MIT AI2 Companion 連接Android 設備測試APP</li></ol><ol type="1" id="7e5a24e9-3495-4598-9c34-52202d2c4f98" class="numbered-list" start="5"><li>App Inventor 2 基本操作 1 - AI2 Basics</li></ol><ol type="1" id="4e42c7e4-1233-48b1-b172-48b9022555b2" class="numbered-list" start="6"><li>App Inventor 2 基本操作 2 - UI Layout</li></ol><ol type="1" id="33b3037b-774b-4927-a5fb-03bc9eaa5a50" class="numbered-list" start="7"><li>App Inventor 2 基本操作 3 - Clock UI + Random Numbers</li></ol><ol type="1" id="50b11c31-5ac1-4578-b5cc-2a5db014511b" class="numbered-list" start="8"><li>App Inventor 2 基本操作 4 - Screen 分頁應用</li></ol><ol type="1" id="1fd5fee1-62ee-4f1a-ba66-aed4124d4769" class="numbered-list" start="9"><li>App Inventor 2 基本操作 5 - 在 Screen 間傳遞資料</li></ol><ol type="1" id="89d58c67-cc39-4cda-8c18-dc1ebdf1c07c" class="numbered-list" start="10"><li>App Inventor 2 基本操作 6 - 同類型UI的整合設計(Any Component Blocks)</li></ol><ol type="1" id="ea4cf73b-c4cc-4bc6-9162-0693998bcc3d" class="numbered-list" start="11"><li>App Inventor 2 基本操作 7 - Google Firebase Realtime Database</li></ol><ol type="1" id="1d34b6fe-259f-4775-9abb-9541aa68fe5a" class="numbered-list" start="12"><li>App Inventor 2 課堂練習展示 1 - Rolling Dice 設計範例</li></ol><ol type="1" id="455e4c53-81d6-48fa-8c38-848e7b4d6525" class="numbered-list" start="13"><li>App Inventor 2 課堂練習展示 2 - Rolling Dice 進階設計</li></ol><ol type="1" id="4acbf7af-d048-4196-b590-9560facf8a62" class="numbered-list" start="14"><li>App Inventor 2 課堂練習展示 3 - When Cockroaches Meet Slippers 設計範例</li></ol><ol type="1" id="28d8cbc1-56c6-4ae0-852d-ab2acc92e615" class="numbered-list" start="15"><li>App Inventor 2 期中微型專題 - 物聯網 K-Type 工業溫度表</li></ol><ol type="1" id="fd99d085-2715-4e77-b103-fc18b4aaf765" class="numbered-list" start="16"><li>Flutter 基礎 1 - Flutter/Dart SDK 安裝</li></ol><ol type="1" id="4d2c844d-3686-4de5-82c3-0c4a00828bd1" class="numbered-list" start="17"><li>Flutter 基礎 2 - Dart Comment, Number, Loops</li></ol><ol type="1" id="921861de-d38f-43ce-a882-eadb88896794" class="numbered-list" start="18"><li>Flutter 基礎 3 - Dart Functions</li></ol><ol type="1" id="a011acfb-041b-4166-81be-f4af40cad6f2" class="numbered-list" start="19"><li>Flutter 基礎 4 - Dart Null Aware Operators</li></ol><ol type="1" id="bf27e493-56ed-458c-8f0e-1acb454c8837" class="numbered-list" start="20"><li>Flutter 基礎 5 - Dart Strings</li></ol><ol type="1" id="6ec70937-90e3-41eb-b1cc-d0de531d6a2d" class="numbered-list" start="21"><li>Flutter 基礎 6 - Dart Lists (Basics, Access, Update, Iterate)</li></ol><ol type="1" id="3931bf94-6277-4514-957c-8a102e4c2683" class="numbered-list" start="22"><li>Flutter 基礎 7 - Dart Lists (find, filter, collection if, sort, ...)</li></ol><ol type="1" id="46f2d7c4-9295-41b0-a503-fd1cf35dd742" class="numbered-list" start="23"><li>Flutter 基礎 8 - Dart Introduction to Dart OOP</li></ol><ol type="1" id="a3f5c4e8-042e-4d49-83a5-56ea8fe5eeaa" class="numbered-list" start="24"><li>Flutter 程式練習 1 - 第一個 Flutter App</li></ol><ol type="1" id="3b52e6ce-6504-486a-8c43-0e54b9162f5d" class="numbered-list" start="25"><li>Flutter 程式練習 2 - Building Layouts</li></ol><ol type="1" id="476b350c-5312-4582-b27e-8ba4db185c6c" class="numbered-list" start="26"><li>Flutter 程式練習 3 - 『無』狀態的 Flutter 程式樣板 (StatelessWidget)</li></ol><ol type="1" id="250ee6cb-e5dc-4168-bc25-49a647adf4e0" class="numbered-list" start="27"><li>Flutter 程式練習 4 - 『有』狀態的 Flutter 程式樣板 (StatefulWidget)</li></ol><ol type="1" id="9aa89161-fffe-4926-bf2e-e64c2d7d7d9c" class="numbered-list" start="28"><li>Flutter 程式練習 5 - Timer 、Layout Builder、 JSON 應用</li></ol><ol type="1" id="f6a4bec8-0b65-46b5-8be1-177da4760aad" class="numbered-list" start="29"><li>Flutter 程式練習 6 - Line Chart、MQTT Client 應用</li></ol><ol type="1" id="97f2c40e-21c4-401c-9f42-f19fbd0e3d37" class="numbered-list" start="30"><li>Flutter 程式練習 7 - Firebase Realtime Database 應用</li></ol><ol type="1" id="4782cac7-6aa6-4770-baa0-17743ef4cac5" class="numbered-list" start="31"><li>Flutter 期末微型專題 - 物聯網(IoT)交通號誌控制系統 (參考專題)</li></ol></div></p><h3 id="951c30f8-f346-482c-b8d1-868c7b5533bb" class="block-color-yellow_background">學習成效(教材/教具輔助教學之運用情形，說明該作品對學生學習或教師教學之貢獻)</h3><div id="a583c083-a914-4354-84af-2215e8e7f823" class="column-list"><div id="31f8f8fc-e42a-44d5-983d-5f68633407d2" style="width:18.75%" class="column"><figure id="ec67fcb0-048c-4f58-9821-a3d8cdf16b02" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/yang02%201.png"><img style="width:442px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/yang02%201.png"/></a></figure></div><div id="05e64804-88e8-4932-b34e-06102a972d69" style="width:81.25%" class="column"><p id="45354b8f-9a55-452e-8576-eded40f9c919" class="">所有教材/教具皆在實際授課過程中『動態調整』，依據課堂上觀察到的學生反應及作業繳交狀況，每週調整設計錄製影音輔助教學教材，所有課堂範例及APP開發練習專案，都是為學生客製化的全新設計，所以本教材內的所有數位教材、教學影片、及練習專案教具皆100%在課堂上使用，因為這是依每學期上課班級『客製化』規劃設計的教材，也是本人在今年榮獲『績優教學實踐計畫』提出的翻轉教室教學理念『複習翻轉』。</p></div></div><p id="7a78f560-e647-445d-8cdf-d1b7fd442ecb" class="">『App程式設計實務 』是開設在專班大三的實務課程，有較充足的課程內容及授課方法規劃時間，加上熟悉本次授課專班的學習狀況，因此特別設計了三階段的漸進式學習教材：『Android 裝置程式設計入門』、『Flutter/Dart 程式設計基礎』、『Flutter 專案設計練習』。『Android 裝置程式設計入門』同時採用做中學及翻轉教室教學法，是原『App程式設計實務 』教學內容的擴充，不論是教材廣度及深度都比原上課方式完整，因此可反饋應用在一般的班級。『Flutter/Dart 程式設計基礎』及『Flutter 專案設計練習』則是為專班設計的全新教材，除了翻轉教室所需的詳細教學影片外，我們還依創新教學需求設計了38個完整的Flutter範例，且將所有的範例專案上傳至Github公共空間，讓授課教師及學生能夠更加便利的使用這些範例。</p><p id="f84708bd-e945-46fb-a289-a16c9f45e69c" class="">就本學期所觀察到的狀況分析，這個專班確實符合我們的預期設定，該專班的學習挫折耐受度的確優於其他班級，像這樣子的授課內容及進度，如果套用在一般的班級，學習動機問卷一定會出現近乎跳水式的下降曲線，然而這個專班所呈現出來的各項學習動機下降並不急遽，到了水深火熱的學期末最後一次問卷調查，各項學習動機依然都還有5.6以上的表現(滿分是7)，哪怕是學習進度嚴重落後的那一小撮同學，在最後一天的實務專題展示依然呈現出極佳的韌性，也沒有輕言放棄並且堅持到最後。儘管本次的授課內容確實有其困難度，但大部分的同學還是願意配合這份教材硬著頭皮試看看，本人認為這應該就是設計開發這份教材/教具最大的收穫。</p><p id="8fc91e07-7e8d-4c07-8ed8-cadb8b5b6fdf" class="">
+</p><ul id="7ce34a9b-a9c6-4488-8371-1f7abbb3c716" class="bulleted-list"><li style="list-style-type:disc">南臺科技大學 FlipClass 數位學習 - 學習紀錄統計<ul id="f2baad07-36d9-450e-a9c6-18dd825757a3" class="bulleted-list"><li style="list-style-type:circle">上課教材: 60</li></ul><ul id="a74963b1-4abb-4790-838d-6b027561a0f3" class="bulleted-list"><li style="list-style-type:circle">閱讀人次: 4871</li></ul><ul id="d36a5090-43bb-4d83-aa2d-20c60f938bde" class="bulleted-list"><li style="list-style-type:circle">作業數量: 14</li></ul><p id="d7a1cf40-7e99-483b-b3c9-b33a1566c9d9" class="">
+</p></li></ul><ul id="2384acbc-3722-4929-bdbd-fc7fe21ce5dd" class="bulleted-list"><li style="list-style-type:disc">『原創』線上教材：<ul id="784d3b39-3ae0-49aa-982e-87349d1b841c" class="bulleted-list"><li style="list-style-type:circle">教材連結：<a  target="_blank" href="https://jy3736.github.io/neemec-appdev/">https://jy3736.github.io/neemec-appdev/</a></li></ul><ul id="bffb95d3-b35a-462d-9bc2-624368bde4d0" class="bulleted-list"><li style="list-style-type:circle">依課程規劃設計 3 大主題，共計 31 個教學單元。</li></ul></li></ul><ul id="e1e15058-4145-4720-9b82-cd23135be907" class="bulleted-list"><li style="list-style-type:disc">『原創』教學影片：<ul id="7749cafc-e534-4ea6-a593-31b453a2eb19" class="bulleted-list"><li style="list-style-type:circle"> YouTube 播放清單連結： <a  target="_blank" href="https://youtube.com/playlist?list=PLx2JssCji9QwDSJbi7MYlnxacdyJ9keo0">https://youtube.com/playlist?list=PLx2JssCji9QwDSJbi7MYlnxacdyJ9keo0</a></li></ul><ul id="52fa776d-ea67-4748-a23a-f54f9f21e368" class="bulleted-list"><li style="list-style-type:circle">依課程規劃及課堂上觀察學生需求設計錄製的23部影片，約莫9個小時。</li></ul><ul id="dcfcd5cd-d4fe-4df0-948e-329a10d8b79e" class="bulleted-list"><li style="list-style-type:circle">所有教學影片皆為客製化錄製影片，『並非側錄課堂上課過程』。</li></ul><ul id="e762eda1-8f5e-488d-aa29-f8f2698279b4" class="bulleted-list"><li style="list-style-type:circle">YouTube 私有影片，流量全來自於上課的學生。</li></ul><ul id="fb0db7ad-cdbf-4c90-9fe2-29711134b1d4" class="bulleted-list"><li style="list-style-type:circle">由 YouTube 統計的 2021-09-01 ~ 2022-01-31 總觀看紀錄：<ul id="59ec0f6d-c230-47c9-92a2-53599a05dd43" class="bulleted-list"><li style="list-style-type:square">觀看紀錄包含此次申請兩門課程教材的影片。</li></ul><ul id="ace0b560-6ea8-4562-a8f2-d9ee7167ed32" class="bulleted-list"><li style="list-style-type:square">觀看人次: 2801</li></ul><ul id="d93b3007-f02a-4336-ac38-315b11c60001" class="bulleted-list"><li style="list-style-type:square">閱覽時數: 414 小時</li></ul></li></ul></li></ul><ul id="657018d3-6344-4921-9a7b-3b2894184c3b" class="bulleted-list"><li style="list-style-type:disc">『原創』課堂練習專案 (Github 雲端平臺)：<ul id="7b6e76d6-2471-4ac7-a605-bef7b8b920df" class="bulleted-list"><li style="list-style-type:circle">線上教具連結：<a  target="_blank" href="https://github.com/jy3736/neemec-appdev/tree/main/labs">https://github.com/jy3736/neemec-appdev/tree/main/labs</a></li></ul><ul id="63c4b821-08e3-460e-a5a0-a51b5964364c" class="bulleted-list"><li style="list-style-type:circle">7 個依進度設計的完整練習專案 + 期末專題參考專案，共計 38 個『原創』APP範例專案。</li></ul></li></ul><ul id="573ac1de-b592-403d-a2fe-d69aa8ec05c8" class="bulleted-list"><li style="list-style-type:disc">上課同學對『翻轉教室』課程教材的評價 ：<ul id="cc962337-d78d-47c2-b9f9-a724739953f3" class="bulleted-list"><li style="list-style-type:circle">將同學的評論以AI文字轉語音的方式讀出並上傳至 YouTube。<ul id="b9bb1731-32ba-4f59-9f15-7bc2d6cfe615" class="bulleted-list"><li style="list-style-type:square"><a  target="_blank" href="https://youtu.be/BVet_smqjAM">https://youtu.be/BVet_smqjAM</a></li></ul></li></ul></li></ul><h3 id="e7ecaa1b-d34f-4a8b-bc21-25cc9803c040" class="block-color-yellow_background">課堂練習專案運用說明</h3><ul id="4af5c488-e336-440e-b5c9-e6f6eec636b1" class="bulleted-list"><li style="list-style-type:disc">Flutter擁有豐富且方便的元件(widget)及優異的性能表現，適合有高效能APP應用程式開發需求且程式設計能力較佳的同學。本教具提供了38個完整的Flutter練習專案，內容包含：使用者介面(UI)設計基礎、資料視覺化、Firebase資料庫、及MQTT通訊協定應用，培養同學足夠的APP UI設計技巧，因應開發人工智慧及物聯網應用專題設計APP操作介面的需求。</li></ul><ul id="3f069081-3070-485b-9de5-b2b5c0995be0" class="bulleted-list"><li style="list-style-type:disc">本課堂練習的6份講義教材提供了38個完整的Flutter練習專案，授課教師可依需求選擇適用的練習專案在課堂上講解，其他的專案可用作學生自主學習使用。因考量到APP開發專案大都非常繁瑣複雜，對初學的學生而言只要漏掉了一些細節，可能整個專案就無法順利編譯，因此，這些練習專案都經過測試並上傳至Github公共空間供學生下載，Github的下載連結就放置在每一份講義的「參考資料」段落。</li></ul><ul id="ae26097f-bff0-4664-902b-a6a9197a29f7" class="bulleted-list"><li style="list-style-type:disc">線上課堂練習連結：<a  target="_blank" href="https://github.com/jy3736/neemec-appdev/tree/main/labs">https://github.com/jy3736/neemec-appdev/tree/main/labs</a></li></ul><ul id="63ed76ad-5dac-4cb5-94e2-5e233fa28737" class="bulleted-list"><li style="list-style-type:disc">7 個依進度設計的完整練習專案 + 期末專題參考專案，共計 38 個『原創』APP範例專案。</li></ul><figure id="ad9587fe-071a-4942-920a-760d45dd674c" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/Untitled.png"><img style="width:672px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/Untitled.png"/></a></figure><p id="c53b8130-b91d-4abc-a862-5ac3d469992b" class="">
+</p><ul id="1690aa73-cf9b-4739-a70f-5aff5cff5a31" class="bulleted-list"><li style="list-style-type:disc">每一課堂練習專案都是專為特定主題設計的『完整』專案，並可下載至 Android 手機上實體測試。</li></ul><figure id="89b990a1-de9b-4a86-a985-2e0d10dd3576" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/Untitled%201.png"><img style="width:3840px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/Untitled%201.png"/></a></figure><h3 id="922bc89d-87af-4464-bf6c-edadaa5a6dd2" class="block-color-yellow_background">教材展示範</h3><h3 id="6fc807be-a16c-46b2-943e-f3f3ef1eb3d4" class="block-color-yellow">展示範例一：設計模擬咖啡烘豆機溫度感測器監測系統</h3><ul id="2f0f2dab-bc72-4136-9a68-c678f3c28d8b" class="bulleted-list"><li style="list-style-type:disc">我們的教學目標是希望學生能將APP的設計技巧，應用於電子相關專題的操作介面，進而大幅降低硬體設計成本，同時又可優化硬體專題的使用者介面，因此到課程的後期，我們開始引入商用咖啡烘豆機的使用情境，設計虛擬的IoT物聯網感測裝置，讓學生從這些虛擬的裝置當中讀回感測器值，並運用APP動態圖表的技巧呈現即時資料。</li></ul><ul id="168b7239-691a-411b-b3cd-f3104c8a299b" class="bulleted-list"><li style="list-style-type:disc">因為程式開發的部分過於冗長，委員如果有興趣可以直接點進專案中閱覽，在此我們僅節錄實際執行的簡單動畫。</li></ul><figure id="e7a1c496-3233-4ccf-b8a0-228f79f6e67e"><a  target="_blank" href="https://github.com/jy3736/neemec-appdev/tree/main/labs/flutter_07" class="block-color-blue bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">neemec-appdev/labs/flutter_07 at main · jy3736/neemec-appdev</div><div class="bookmark-description">Contribute to jy3736/neemec-appdev development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/jy3736/neemec-appdev/tree/main/labs/flutter_07</div></div><img src="https://opengraph.githubassets.com/ad8341b8e395a13b660c37af1bdb16c2db154b1e3a85f410dac315d776d7ac9c/jy3736/neemec-appdev" class="bookmark-image"/></a></figure><p id="db64d2a3-f462-40b5-a285-7901932af10e" class="">
+</p><div id="6d3fa58f-cdfb-4b1a-88dd-39b2930c00b1" class="column-list"><div id="421d9cc3-3928-4716-9636-9403fd32e426" style="width:50%" class="column"><figure id="f4500cb4-4796-458e-87fb-3609b05516d0" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/Untitled_14.png"><img style="width:288px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/Untitled_14.png"/></a></figure></div><div id="ee48e517-55dd-4c20-a8aa-96d78b129941" style="width:50%" class="column"><figure id="0240764b-105a-49ae-97ff-49ab9e5dc696" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/fbrt1.gif"><img style="width:1086px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/fbrt1.gif"/></a></figure></div></div><p id="50382ce7-d088-4dbc-8dd0-a420fe1c67da" class="">
+</p><div id="a10fc6ba-38b1-424d-b9d1-3794f7116b5c" class="column-list"><div id="0c90168a-56d9-4b9f-af29-9f9a0b3ebcf6" style="width:68.75%" class="column"><figure id="e013d3f3-1c36-49d5-93f4-8da4e99a3ad4" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/fbrt2.gif"><img style="width:1923px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/fbrt2.gif"/></a></figure></div><div id="47553dce-82e2-4252-9d8c-3ee0fcfed836" style="width:31.25%" class="column"><figure id="840e8285-d7ad-4802-8090-61504bca8f72" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/fbw1.gif"><img style="width:441px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/fbw1.gif"/></a></figure></div></div><h3 id="714cb7c8-e718-4b3a-a538-7ad74550f4df" class="block-color-yellow">展示範例二：<strong>Flutter </strong>期末微型專題 - 物聯網(IoT)交通號誌控制系統 (參考專題)</h3><ul id="99d6a956-0104-428a-a6a8-248362f237f5" class="bulleted-list"><li style="list-style-type:disc">這個專題範例是另外一門『單晶片微處理機設計實務』的延伸，我們以這個班級在大二時的期末專題為基礎，用APP專案開發技巧為先前的硬體專題設計操作介面，讓學生體驗將來畢業專題所要面對的設計情境。</li></ul><ul id="f8668ff2-ff7a-4d88-8fc5-6b47468c500c" class="bulleted-list"><li style="list-style-type:disc">因為程式開發的部分過於冗長，委員如果有興趣可以點進專案中閱覽，在此我們僅節錄部分實際執行的簡單動畫。</li></ul><figure id="ba8c72b6-3f03-4694-b675-e082e25964d6"><a  target="_blank" href="https://github.com/jy3736/neemec-appdev/tree/main/labs/flutter_08" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">neemec-appdev/labs/flutter_08 at main · jy3736/neemec-appdev</div><div class="bookmark-description">Contribute to jy3736/neemec-appdev development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/jy3736/neemec-appdev/tree/main/labs/flutter_08</div></div><img src="https://opengraph.githubassets.com/ad8341b8e395a13b660c37af1bdb16c2db154b1e3a85f410dac315d776d7ac9c/jy3736/neemec-appdev" class="bookmark-image"/></a></figure><ul id="37422738-b3c0-40d7-bbcf-94a58dd6b1e9" class="bulleted-list"><li style="list-style-type:disc">物聯網(IoT)交通號誌控制器的各種工作模式</li></ul><div id="ba05344d-3e2e-4949-8473-bba5e058de6d" class="column-list"><div id="fb15666f-71b3-4e16-a9ff-df7992da45e5" style="width:33.33333333333333%" class="column"><figure id="1a33bf6f-370c-402e-a8ac-aa2690030407" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t1.gif"><img style="width:1083px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t1.gif"/></a></figure></div><div id="65d34335-1d5a-4d0f-9584-12034b34acfb" style="width:33.33333333333333%" class="column"><figure id="0ba591dc-3bf2-42f4-8eff-3e5ac5ec8b9f" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t2.gif"><img style="width:1083px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t2.gif"/></a></figure></div><div id="f32893e4-7a5a-45ba-b28b-978b45f0dde1" style="width:33.33333333333333%" class="column"><figure id="26d0b0dc-1b38-42e4-964a-5e1e978623c7" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t3.gif"><img style="width:1083px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t3.gif"/></a></figure></div></div><div id="7f23ea3d-b8b9-43eb-8532-14a4a6f80a91" class="column-list"><div id="7613d16d-4f0d-4c4b-aa9b-50c9c828604f" style="width:33.33333333333333%" class="column"><figure id="4df0b6e2-52d0-4b50-926f-58f1cbe99d73" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t4.gif"><img style="width:1083px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t4.gif"/></a></figure></div><div id="e6894c01-c6cc-42f4-a45f-87bff5495aa0" style="width:33.333333333333336%" class="column"><figure id="c3bce71d-836d-4324-8c77-0ff03344ec14" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t5.gif"><img style="width:1083px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t5.gif"/></a></figure></div><div id="2d84af0d-faf1-4d3d-aa17-f759c107c9ee" style="width:33.333333333333336%" class="column"><figure id="2b2b0430-b481-4704-8997-53729c619e06" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t6.gif"><img style="width:1083px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t6.gif"/></a></figure></div></div><ul id="bbc570b0-7f66-4d32-8d30-8c453f098d03" class="bulleted-list"><li style="list-style-type:disc">物聯網(IoT)交通號誌控制系統實際展示<ul id="0e38d20d-c8b4-4b5b-8d98-244703fe2275" class="bulleted-list"><li style="list-style-type:circle">為了方便學生可以在家個人測試，本專案臺提供可以在 Windows 環境執行的模擬裝置，讓學生可以使用筆電或者桌機模擬多個被控制的交通號誌，再用自己的手機控制這些虛擬的交通號誌，讓學生真實體驗感受結合APP設計及物聯網(IoT)系統的實務專題。</li></ul></li></ul><figure id="4f7888a0-5253-49f1-8028-b2f503d789a3" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t8.gif"><img style="width:3010px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/t8.gif"/></a></figure><p id="57c23205-df43-4744-a4d5-18d7f5b3084d" class="">
+</p><p id="791b9950-b667-455f-8fef-82711b76fb74" class="">
+</p><figure id="c3aa2b0d-27b5-45d3-8860-b48b24bd6a00" class="image"><a href="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/edu5.png"><img style="width:1920px" src="%E7%BF%BB%E8%BD%89%E6%95%99%E5%AE%A4%E5%BD%B1%E9%9F%B3%E6%95%99%E6%9D%90%20(APP%20%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88%E5%AF%A6%E5%8B%99)%20a0b1add246124907b38e78328b6f5f3c/edu5.png"/></a></figure><p id="7ea302d4-5822-47a0-b989-099a9bb05692" class="">
+</p></div></article>
+<script>hljs.highlightAll();</script>
+</body></html>
